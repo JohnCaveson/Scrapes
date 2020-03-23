@@ -22,11 +22,11 @@ def get_headlines(soup):
     covidCount = 0
     virusCount = 0
     for str in list(headlines):
-        if "corona" in str.get_text():
+        if "corona" in str.get_text().lower():
             coronaCount += 1
-        elif "covid" in str.get_text():
+        if "covid" in str.get_text().lower():
             covidCount += 1
-        elif "virus" in str.get_text():
+        if "virus" in str.get_text().lower():
             virusCount += 1
     print(
         "Count of Corona: %s \n Count of Covid: %s \n Count of Virus %s"
