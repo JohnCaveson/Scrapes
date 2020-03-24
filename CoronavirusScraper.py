@@ -6,18 +6,30 @@ Eventually make this an args call maybe?
 """
 
 
-def get_request():
-    page = requests.get("https://www.buzzfeed.com/")
-    return page.content
-
-
-def parse_soup(content):
-    soup = BeautifulSoup(content, "html.parser")
+def parse_soup(pages=[]):
+    pageContents = b''
+    for page in pages:
+        pageContents += page.content
+    soup = BeautifulSoup(pageContents, "html.parser")
     return soup
 
 
+def get_request():
+    requestUrls = ["https://www.buzzfeed.com/", "https://www.yahoo.com/"]
+    pages = []
+    for url in requestUrls:
+        pages.append(requests.get(url))
+
+    return parse_soup(pages)
+
+
+"""
+TODO: Create individual headline functions per website or find a way to get all
+"""
+
+
 def get_headlines(soup):
-    headlines = soup.find_all("a", class_="js-card__link")
+    headlines = soup.find_all("a")
     coronaCount = 0
     covidCount = 0
     virusCount = 0
@@ -35,5 +47,4 @@ def get_headlines(soup):
 
 
 content = get_request()
-soup = parse_soup(content)
-get_headlines(soup)
+get_headlines(content)
